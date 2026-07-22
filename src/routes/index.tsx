@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
 import { Toaster } from "@/components/ui/sonner";
 import { Nav } from "@/components/vantage/Nav";
 import { Hero } from "@/components/vantage/Hero";
@@ -44,15 +43,13 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  const [contactOpen, setContactOpen] = useState(false);
-
   return (
     <main className="min-h-screen bg-background text-foreground">
       <Nav />
       <Hero />
       <Showcase />
       <Services />
-      <Contact open={contactOpen} setOpen={setContactOpen} />
+      <Contact />
       <Toaster position="bottom-center" />
     </main>
   );
