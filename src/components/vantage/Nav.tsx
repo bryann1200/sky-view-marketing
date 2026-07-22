@@ -9,7 +9,7 @@ const links = [
   { label: "Contact", href: "#contact" },
 ];
 
-export function Nav({ onBook }: { onBook: () => void }) {
+export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -48,12 +48,14 @@ export function Nav({ onBook }: { onBook: () => void }) {
           ))}
         </div>
 
-        <button
-          onClick={onBook}
+        <a
+          href="https://wa.me/6594537393"
+          target="_blank"
+          rel="noreferrer"
           className="rounded-full bg-primary px-4 py-1.5 text-[12px] font-medium text-primary-foreground transition-transform hover:scale-[1.03] active:scale-[0.98]"
         >
           Book a shoot
-        </button>
+        </a>
       </nav>
     </header>
   );
