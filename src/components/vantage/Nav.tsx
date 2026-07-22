@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import logoAsset from "@/assets/vantage-logo.asset.json";
 
 const links = [
   { label: "Work", href: "#work" },
@@ -28,16 +29,11 @@ export function Nav({ onBook }: { onBook: () => void }) {
     >
       <nav className="mx-auto flex h-14 max-w-7xl items-center justify-between px-6">
         <a href="#top" className="flex items-center gap-2">
-          {/* LOGO SLOT — replace with uploaded Vantage Aerial mark */}
-          <div
-            aria-label="Vantage Aerial logo"
-            className="flex h-8 w-8 items-center justify-center rounded-md bg-foreground text-[10px] font-bold tracking-tight text-background"
-          >
-            VA
-          </div>
-          <span className="hidden text-sm font-semibold tracking-tight sm:inline">
-            Vantage Aerial.
-          </span>
+          <img
+            src={logoAsset.url}
+            alt="Vantage Aerial"
+            className="h-8 w-auto object-contain"
+          />
         </a>
 
         <div className="hidden items-center gap-8 md:flex">
