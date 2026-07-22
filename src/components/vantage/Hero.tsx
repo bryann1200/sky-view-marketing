@@ -49,7 +49,7 @@ export function Hero() {
         }}
       >
         <h1 className="text-5xl font-semibold tracking-[-0.03em] text-white sm:text-7xl md:text-8xl">
-          See it from <span className="text-accent">above.</span>
+          See it from <span className="text-primary">above.</span>
         </h1>
         <p className="mx-auto mt-6 max-w-md text-sm text-white/70 sm:text-base">
           Aerial photography and cinematic video for Singapore's most

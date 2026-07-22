@@ -23,7 +23,7 @@ export function Services() {
     <section id="services" className="px-6 py-40">
       <Reveal className="mx-auto max-w-3xl text-center">
         <h2 className="text-4xl font-semibold tracking-[-0.03em] sm:text-6xl md:text-7xl">
-          Every angle, <span className="text-accent">covered.</span>
+          Every angle, <span className="text-primary">covered.</span>
         </h2>
       </Reveal>
 

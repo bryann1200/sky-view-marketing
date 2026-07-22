@@ -13,7 +13,7 @@ export function About() {
       <Reveal className="mx-auto max-w-5xl text-center">
         <h2 className="text-4xl font-semibold tracking-[-0.03em] sm:text-6xl md:text-7xl">
           Licensed. Insured.{" "}
-          <span className="text-accent">Obsessed with the shot.</span>
+          <span className="text-primary">Obsessed with the shot.</span>
         </h2>
       </Reveal>
 
