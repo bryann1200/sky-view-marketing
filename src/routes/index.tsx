@@ -5,8 +5,11 @@ import { Nav } from "@/components/vantage/Nav";
 import { Hero } from "@/components/vantage/Hero";
 import { Showcase } from "@/components/vantage/Showcase";
 import { Services } from "@/components/vantage/Services";
-import { About } from "@/components/vantage/About";
 import { Contact } from "@/components/vantage/Contact";
+import heroImg from "@/assets/hero-singapore.jpg";
+
+const SITE_URL = "https://sky-view-marketing.lovable.app";
+const OG_IMAGE = `${SITE_URL}${heroImg}`;
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -25,8 +28,18 @@ export const Route = createFileRoute("/")({
           "Drone photography and video for Singapore real estate. Marina Bay to Sentosa, framed from the sky.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: SITE_URL },
+      { property: "og:image", content: OG_IMAGE },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Vantage Aerial Studio — See it from above." },
+      {
+        name: "twitter:description",
+        content:
+          "Drone photography and video for Singapore real estate. Marina Bay to Sentosa, framed from the sky.",
+      },
+      { name: "twitter:image", content: OG_IMAGE },
     ],
+    links: [{ rel: "canonical", href: SITE_URL }],
   }),
 });
 
@@ -35,11 +48,10 @@ function Index() {
 
   return (
     <main className="min-h-screen bg-background text-foreground">
-      <Nav onBook={() => setContactOpen(true)} />
+      <Nav />
       <Hero />
       <Showcase />
       <Services />
-      <About />
       <Contact open={contactOpen} setOpen={setContactOpen} />
       <Toaster position="bottom-center" />
     </main>
