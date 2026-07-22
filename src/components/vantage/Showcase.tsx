@@ -74,7 +74,7 @@ export function Showcase() {
           Selected work
         </div>
         <h2 className="mt-6 text-4xl font-semibold tracking-[-0.03em] sm:text-6xl">
-          A few of our favorite <span className="text-accent">altitudes.</span>
+          A few of our favorite <span className="text-primary">altitudes.</span>
         </h2>
       </Reveal>
 

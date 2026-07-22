@@ -4,17 +4,17 @@ const services = [
   {
     n: "01",
     title: "Real estate photography",
-    desc: "High-resolution aerial stills that give every listing an editorial-grade opening frame.",
+    desc: "Sharp aerial stills that make a listing stop the scroll.",
   },
   {
     n: "02",
     title: "Cinematic walkthroughs",
-    desc: "Smooth exterior-to-interior video edits that carry buyers from the sky through the front door.",
+    desc: "Video edits that move from the sky down to the front door.",
   },
   {
     n: "03",
     title: "Progress capture",
-    desc: "Repeatable aerial documentation for developers and architects tracking a site over time.",
+    desc: "Repeat flights that track a site week by week for developers and architects.",
   },
 ];
 
@@ -23,7 +23,7 @@ export function Services() {
     <section id="services" className="px-6 py-40">
       <Reveal className="mx-auto max-w-3xl text-center">
         <h2 className="text-4xl font-semibold tracking-[-0.03em] sm:text-6xl md:text-7xl">
-          Every angle, <span className="text-accent">covered.</span>
+          Every angle, <span className="text-primary">covered.</span>
         </h2>
       </Reveal>
 
