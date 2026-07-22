@@ -4,17 +4,17 @@ const services = [
   {
     n: "01",
     title: "Real estate photography",
-    desc: "High-resolution aerial stills that give every listing an editorial-grade opening frame.",
+    desc: "Sharp aerial stills that make a listing stop the scroll.",
   },
   {
     n: "02",
     title: "Cinematic walkthroughs",
-    desc: "Smooth exterior-to-interior video edits that carry buyers from the sky through the front door.",
+    desc: "Video edits that move from the sky down to the front door.",
   },
   {
     n: "03",
     title: "Progress capture",
-    desc: "Repeatable aerial documentation for developers and architects tracking a site over time.",
+    desc: "Repeat flights that track a site week by week for developers and architects.",
   },
 ];
 

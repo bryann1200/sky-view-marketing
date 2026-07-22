@@ -52,8 +52,7 @@ export function Hero() {
           See it from <span className="text-primary">above.</span>
         </h1>
         <p className="mx-auto mt-6 max-w-md text-sm text-white/70 sm:text-base">
-          Aerial photography and cinematic video for Singapore's most
-          extraordinary properties.
+          Drone photography and video for Singapore real estate.
         </p>
         <div className="mt-10">
           <a
