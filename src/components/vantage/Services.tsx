@@ -1,0 +1,47 @@
+import { Reveal } from "./Reveal";
+
+const services = [
+  {
+    n: "01",
+    title: "Real estate photography",
+    desc: "High-resolution aerial stills that give every listing an editorial-grade opening frame.",
+  },
+  {
+    n: "02",
+    title: "Cinematic walkthroughs",
+    desc: "Smooth exterior-to-interior video edits that carry buyers from the sky through the front door.",
+  },
+  {
+    n: "03",
+    title: "Progress capture",
+    desc: "Repeatable aerial documentation for developers and architects tracking a site over time.",
+  },
+];
+
+export function Services() {
+  return (
+    <section id="services" className="px-6 py-40">
+      <Reveal className="mx-auto max-w-3xl text-center">
+        <h2 className="text-4xl font-semibold tracking-[-0.03em] sm:text-6xl md:text-7xl">
+          Every angle, <span className="text-accent">covered.</span>
+        </h2>
+      </Reveal>
+
+      <div className="mx-auto mt-28 grid max-w-5xl gap-20 sm:grid-cols-3 sm:gap-10">
+        {services.map((s, i) => (
+          <Reveal key={s.n} delay={i * 120} className="text-center">
+            <div className="text-[11px] font-medium tracking-[0.25em] text-muted-foreground">
+              {s.n}
+            </div>
+            <h3 className="mt-6 text-lg font-semibold tracking-tight text-foreground">
+              {s.title}
+            </h3>
+            <p className="mx-auto mt-3 max-w-xs text-sm leading-relaxed text-muted-foreground">
+              {s.desc}
+            </p>
+          </Reveal>
+        ))}
+      </div>
+    </section>
+  );
+}
