@@ -4,7 +4,7 @@ import sentosa from "@/assets/prop-sentosa.jpg";
 import bukit from "@/assets/prop-bukit.jpg";
 import orchard from "@/assets/prop-orchard.jpg";
 import { Reveal } from "./Reveal";
-import { fetchSiteMedia, type SiteMediaItem } from "@/lib/site-media";
+import { fetchSiteMedia, fetchSiteText, type SiteMediaItem } from "@/lib/site-media";
 
 type Item = { slot: string; kicker: string; title: string; img: string };
 
@@ -69,20 +69,22 @@ function ShowcaseItem({ item, i }: { item: Item; i: number }) {
 
 export function Showcase() {
   const [overrides, setOverrides] = useState<Record<string, SiteMediaItem>>({});
+  const [text, setText] = useState<Record<string, string>>({});
 
   useEffect(() => {
     fetchSiteMedia().then(setOverrides);
+    fetchSiteText().then(setText);
   }, []);
 
   const items: Item[] = defaultItems.map((item) => {
     const o = overrides[item.slot];
-    if (!o) return item;
-    return {
-      ...item,
-      img: o.url,
-      kicker: o.location ?? item.kicker,
-      title: o.title ?? item.title,
-    };
+    // Text overrides (edited from the admin's Text section) take priority
+    // over whatever came with an uploaded image, which itself takes
+    // priority over the hardcoded default.
+    const kicker = text[`${item.slot}-location`] ?? o?.location ?? item.kicker;
+    const title = text[`${item.slot}-title`] ?? o?.title ?? item.title;
+    const img = o?.url ?? item.img;
+    return { ...item, img, kicker, title };
   });
 
   return (
