@@ -1,15 +1,28 @@
+import { useEffect, useState } from "react";
 import { Reveal } from "./Reveal";
+import { fetchSiteText } from "@/lib/site-media";
 
 export function Contact() {
+  const [text, setText] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    fetchSiteText().then(setText);
+  }, []);
+
+  const headline = text["contact-headline"] ?? "Let's fly your next listing.";
+  const subtitle =
+    text["contact-subtitle"] ??
+    "Tell us about the property. We'll send back a shot list, a date, and a price — usually the same day.";
+
   return (
     <>
       <section id="contact" className="px-6 pt-40 pb-32">
         <Reveal className="mx-auto max-w-3xl text-center">
           <h2 className="text-4xl font-semibold tracking-[-0.03em] sm:text-6xl md:text-7xl">
-            Let's fly your <span className="text-primary">next listing.</span>
+            {headline}
           </h2>
           <p className="mx-auto mt-6 max-w-md text-sm text-muted-foreground">
-            Tell us about the property. We'll send back a shot list, a date, and a price — usually the same day.
+            {subtitle}
           </p>
           <div className="mt-10">
             <a

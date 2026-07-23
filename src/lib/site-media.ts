@@ -15,6 +15,11 @@ export type SiteMediaItem = {
   updated_at: string;
 };
 
+export type SiteTextItem = {
+  slot: string;
+  value: string;
+};
+
 /** Public, read-only fetch of all current media overrides. */
 export async function fetchSiteMedia(): Promise<Record<string, SiteMediaItem>> {
   try {
@@ -33,8 +38,28 @@ export async function fetchSiteMedia(): Promise<Record<string, SiteMediaItem>> {
     for (const row of rows) bySlot[row.slot] = row;
     return bySlot;
   } catch {
-    // Network hiccup or nothing configured yet — the site falls back to
-    // its bundled local images/video, so this fails silently.
+    return {};
+  }
+}
+
+/** Public, read-only fetch of all current text overrides. */
+export async function fetchSiteText(): Promise<Record<string, string>> {
+  try {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/site_text?select=*`,
+      {
+        headers: {
+          apikey: SUPABASE_ANON_KEY,
+          Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+        },
+      },
+    );
+    if (!res.ok) return {};
+    const rows: SiteTextItem[] = await res.json();
+    const bySlot: Record<string, string> = {};
+    for (const row of rows) bySlot[row.slot] = row.value;
+    return bySlot;
+  } catch {
     return {};
   }
 }
@@ -54,6 +79,14 @@ async function callAdmin(body: Record<string, unknown>) {
 
 export function adminList(password: string) {
   return callAdmin({ password, action: "list" }) as Promise<{ items: SiteMediaItem[] }>;
+}
+
+export function adminListText(password: string) {
+  return callAdmin({ password, action: "listText" }) as Promise<{ items: SiteTextItem[] }>;
+}
+
+export function adminSetText(password: string, slot: string, value: string) {
+  return callAdmin({ password, action: "setText", slot, value }) as Promise<{ ok: true }>;
 }
 
 export function adminUpload(params: {

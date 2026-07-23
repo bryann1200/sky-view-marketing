@@ -1,29 +1,48 @@
+import { useEffect, useState } from "react";
 import { Reveal } from "./Reveal";
+import { fetchSiteText } from "@/lib/site-media";
 
-const services = [
-  {
-    n: "01",
-    title: "Real estate photography",
-    desc: "Sharp aerial stills that make a listing stop the scroll.",
-  },
-  {
-    n: "02",
-    title: "Cinematic walkthroughs",
-    desc: "Video edits that move from the sky down to the front door.",
-  },
-  {
-    n: "03",
-    title: "Progress capture",
-    desc: "Repeat flights that track a site week by week for developers and architects.",
-  },
-];
+const defaults = {
+  headline: "covered.",
+  services: [
+    {
+      n: "01",
+      title: "Real estate photography",
+      desc: "Sharp aerial stills that make a listing stop the scroll.",
+    },
+    {
+      n: "02",
+      title: "Cinematic walkthroughs",
+      desc: "Video edits that move from the sky down to the front door.",
+    },
+    {
+      n: "03",
+      title: "Progress capture",
+      desc: "Repeat flights that track a site week by week for developers and architects.",
+    },
+  ],
+};
 
 export function Services() {
+  const [text, setText] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    fetchSiteText().then(setText);
+  }, []);
+
+  const services = defaults.services.map((s, i) => ({
+    n: s.n,
+    title: text[`service-${i + 1}-title`] ?? s.title,
+    desc: text[`service-${i + 1}-desc`] ?? s.desc,
+  }));
+
+  const headline = text["services-headline"] ?? "Every angle, covered.";
+
   return (
     <section id="services" className="px-6 py-40">
       <Reveal className="mx-auto max-w-3xl text-center">
         <h2 className="text-4xl font-semibold tracking-[-0.03em] sm:text-6xl md:text-7xl">
-          Every angle, <span className="text-primary">covered.</span>
+          {headline}
         </h2>
       </Reveal>
 
