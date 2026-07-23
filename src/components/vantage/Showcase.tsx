@@ -4,14 +4,15 @@ import sentosa from "@/assets/prop-sentosa.jpg";
 import bukit from "@/assets/prop-bukit.jpg";
 import orchard from "@/assets/prop-orchard.jpg";
 import { Reveal } from "./Reveal";
+import { fetchSiteMedia, type SiteMediaItem } from "@/lib/site-media";
 
-type Item = { kicker: string; title: string; img: string };
+type Item = { slot: string; kicker: string; title: string; img: string };
 
-const items: Item[] = [
-  { kicker: "Marina Bay", title: "The skyline, in one uninterrupted sweep.", img: marina },
-  { kicker: "Sentosa Cove", title: "A private villa, framed by the sea.", img: sentosa },
-  { kicker: "Bukit Timah", title: "A landed estate under the canopy.", img: bukit },
-  { kicker: "Orchard Road", title: "A penthouse above the city lights.", img: orchard },
+const defaultItems: Item[] = [
+  { slot: "showcase-1", kicker: "Marina Bay", title: "The skyline, in one uninterrupted sweep.", img: marina },
+  { slot: "showcase-2", kicker: "Sentosa Cove", title: "A private villa, framed by the sea.", img: sentosa },
+  { slot: "showcase-3", kicker: "Bukit Timah", title: "A landed estate under the canopy.", img: bukit },
+  { slot: "showcase-4", kicker: "Orchard Road", title: "A penthouse above the city lights.", img: orchard },
 ];
 
 function ShowcaseItem({ item, i }: { item: Item; i: number }) {
@@ -67,6 +68,23 @@ function ShowcaseItem({ item, i }: { item: Item; i: number }) {
 }
 
 export function Showcase() {
+  const [overrides, setOverrides] = useState<Record<string, SiteMediaItem>>({});
+
+  useEffect(() => {
+    fetchSiteMedia().then(setOverrides);
+  }, []);
+
+  const items: Item[] = defaultItems.map((item) => {
+    const o = overrides[item.slot];
+    if (!o) return item;
+    return {
+      ...item,
+      img: o.url,
+      kicker: o.location ?? item.kicker,
+      title: o.title ?? item.title,
+    };
+  });
+
   return (
     <div id="work">
       <Reveal className="mx-auto max-w-3xl px-6 pt-32 pb-8 text-center">
@@ -79,7 +97,7 @@ export function Showcase() {
       </Reveal>
 
       {items.map((item, i) => (
-        <ShowcaseItem key={item.kicker} item={item} i={i} />
+        <ShowcaseItem key={item.slot} item={item} i={i} />
       ))}
 
       <Reveal className="pb-40 text-center">
