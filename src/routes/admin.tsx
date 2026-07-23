@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   adminList,
+  adminListText,
+  adminSetText,
   adminUpload,
   adminDelete,
   type SiteMediaItem,
@@ -20,20 +22,51 @@ const SLOTS: { slot: string; label: string; kind: "image" | "video" }[] = [
   { slot: "showcase-4", label: "Showcase — Orchard Penthouse", kind: "image" },
 ];
 
+type TextField = {
+  slot: string;
+  label: string;
+  placeholder: string;
+  multiline?: boolean;
+};
+
+const TEXT_FIELDS: TextField[] = [
+  { slot: "hero-headline", label: "Hero headline", placeholder: "See it from above." },
+  { slot: "hero-subtitle", label: "Hero subtitle", placeholder: "Drone photography and video for Singapore real estate.", multiline: true },
+  { slot: "services-headline", label: "Services headline", placeholder: "Every angle, covered." },
+  { slot: "service-1-title", label: "Service 1 title", placeholder: "Real estate photography" },
+  { slot: "service-1-desc", label: "Service 1 description", placeholder: "Sharp aerial stills that make a listing stop the scroll.", multiline: true },
+  { slot: "service-2-title", label: "Service 2 title", placeholder: "Cinematic walkthroughs" },
+  { slot: "service-2-desc", label: "Service 2 description", placeholder: "Video edits that move from the sky down to the front door.", multiline: true },
+  { slot: "service-3-title", label: "Service 3 title", placeholder: "Progress capture" },
+  { slot: "service-3-desc", label: "Service 3 description", placeholder: "Repeat flights that track a site week by week for developers and architects.", multiline: true },
+  { slot: "service-4-title", label: "Service 4 title", placeholder: "" },
+  { slot: "service-4-desc", label: "Service 4 description", placeholder: "", multiline: true },
+  { slot: "contact-headline", label: "Contact headline", placeholder: "Let's fly your next listing." },
+  { slot: "contact-subtitle", label: "Contact subtitle", placeholder: "Tell us about the property…", multiline: true },
+];
+
 function AdminPage() {
   const [password, setPassword] = useState("");
   const [unlocked, setUnlocked] = useState(false);
   const [error, setError] = useState("");
   const [items, setItems] = useState<Record<string, SiteMediaItem>>({});
+  const [textValues, setTextValues] = useState<Record<string, string>>({});
   const [busySlot, setBusySlot] = useState<string | null>(null);
+  const [savedSlot, setSavedSlot] = useState<string | null>(null);
 
   async function tryUnlock(pw: string) {
     setError("");
     try {
-      const { items: rows } = await adminList(pw);
+      const [{ items: rows }, { items: textRows }] = await Promise.all([
+        adminList(pw),
+        adminListText(pw),
+      ]);
       const bySlot: Record<string, SiteMediaItem> = {};
       for (const row of rows) bySlot[row.slot] = row;
       setItems(bySlot);
+      const textBySlot: Record<string, string> = {};
+      for (const row of textRows) textBySlot[row.slot] = row.value;
+      setTextValues(textBySlot);
       setUnlocked(true);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Wrong password");
@@ -68,6 +101,20 @@ function AdminPage() {
       });
     } catch (e) {
       setError(e instanceof Error ? e.message : "Reset failed");
+    } finally {
+      setBusySlot(null);
+    }
+  }
+
+  async function handleSaveText(slot: string) {
+    setBusySlot(slot);
+    setError("");
+    try {
+      await adminSetText(password, slot, textValues[slot] ?? "");
+      setSavedSlot(slot);
+      setTimeout(() => setSavedSlot((s) => (s === slot ? null : s)), 1500);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Save failed");
     } finally {
       setBusySlot(null);
     }
@@ -155,6 +202,53 @@ function AdminPage() {
           );
         })}
       </div>
+
+      <h2 className="text-2xl font-semibold mt-16 mb-1">Text</h2>
+      <p className="text-sm text-neutral-500 mb-8">
+        Edit headlines and body copy. Leave blank to fall back to the default site text.
+      </p>
+      <div className="flex flex-col gap-6">
+        {TEXT_FIELDS.map(({ slot, label, placeholder, multiline }) => (
+          <div key={slot} className="border rounded-xl p-4 flex flex-col gap-3">
+            <div className="flex items-center justify-between">
+              <span className="font-medium text-sm">{label}</span>
+              {busySlot === slot && <span className="text-xs text-neutral-400">Saving…</span>}
+              {savedSlot === slot && <span className="text-xs text-green-600">Saved</span>}
+            </div>
+            {multiline ? (
+              <textarea
+                value={textValues[slot] ?? ""}
+                placeholder={placeholder}
+                onChange={(e) =>
+                  setTextValues((prev) => ({ ...prev, [slot]: e.target.value }))
+                }
+                rows={3}
+                className="border rounded-lg px-3 py-2 text-sm"
+              />
+            ) : (
+              <input
+                type="text"
+                value={textValues[slot] ?? ""}
+                placeholder={placeholder}
+                onChange={(e) =>
+                  setTextValues((prev) => ({ ...prev, [slot]: e.target.value }))
+                }
+                className="border rounded-lg px-3 py-2 text-sm"
+              />
+            )}
+            <div>
+              <button
+                onClick={() => handleSaveText(slot)}
+                disabled={busySlot === slot}
+                className="bg-[#FF4B26] text-white rounded-full px-4 py-1.5 text-xs font-medium"
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
       {error && <p className="text-red-500 text-sm mt-4">{error}</p>}
     </div>
   );
