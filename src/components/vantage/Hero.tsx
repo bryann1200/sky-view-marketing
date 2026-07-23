@@ -52,6 +52,7 @@ export function Hero() {
       >
         {video ? (
           <video
+            ref={videoRef}
             src={video.url}
             poster={poster}
             className="h-full w-full object-cover opacity-80"
