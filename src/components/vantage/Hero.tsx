@@ -1,16 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 import heroImg from "@/assets/hero-singapore.jpg";
-import { fetchSiteMedia, type SiteMediaItem } from "@/lib/site-media";
+import { fetchSiteMedia, fetchSiteText, type SiteMediaItem } from "@/lib/site-media";
 
 export function Hero() {
   const [t, setT] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [media, setMedia] = useState<Record<string, SiteMediaItem>>({});
+  const [text, setText] = useState<Record<string, string>>({});
 
   useEffect(() => {
     fetchSiteMedia().then(setMedia);
+    fetchSiteText().then(setText);
   }, []);
+
 
   useEffect(() => {
     const v = videoRef.current;
@@ -81,11 +84,12 @@ export function Hero() {
         }}
       >
         <h1 className="text-5xl font-semibold tracking-[-0.03em] text-white sm:text-7xl md:text-8xl">
-          See it from <span className="text-primary">above.</span>
+          {text["hero-headline"] ?? (<>See it from <span className="text-primary">above.</span></>)}
         </h1>
         <p className="mx-auto mt-6 max-w-md text-sm text-white/70 sm:text-base">
-          Drone photography and video for Singapore real estate.
+          {text["hero-subtitle"] ?? "Drone photography and video for Singapore real estate."}
         </p>
+
         <div className="mt-10">
           <a
             href="#work"
