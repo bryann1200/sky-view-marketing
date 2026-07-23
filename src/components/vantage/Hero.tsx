@@ -92,4 +92,5 @@ export function Hero() {
         Scroll
       </div>
     </section>
-  )
+  );
+}
