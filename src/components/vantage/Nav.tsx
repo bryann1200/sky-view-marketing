@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
-import logoAsset from "@/assets/vantage-logo.asset.json";
+import logoUrl from "@/assets/vantage-logo.jpeg";
 
 const links = [
   { label: "Work", href: "#work" },
