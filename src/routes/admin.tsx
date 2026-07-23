@@ -43,6 +43,14 @@ const TEXT_FIELDS: TextField[] = [
   { slot: "service-4-desc", label: "Service 4 description", placeholder: "", multiline: true },
   { slot: "contact-headline", label: "Contact headline", placeholder: "Let's fly your next listing." },
   { slot: "contact-subtitle", label: "Contact subtitle", placeholder: "Tell us about the property…", multiline: true },
+  { slot: "showcase-1-location", label: "Showcase 1 — location tag", placeholder: "Marina Bay" },
+  { slot: "showcase-1-title", label: "Showcase 1 — caption", placeholder: "The skyline, in one uninterrupted sweep.", multiline: true },
+  { slot: "showcase-2-location", label: "Showcase 2 — location tag", placeholder: "Sentosa Cove" },
+  { slot: "showcase-2-title", label: "Showcase 2 — caption", placeholder: "A private villa, framed by the sea.", multiline: true },
+  { slot: "showcase-3-location", label: "Showcase 3 — location tag", placeholder: "Bukit Timah" },
+  { slot: "showcase-3-title", label: "Showcase 3 — caption", placeholder: "A landed estate under the canopy.", multiline: true },
+  { slot: "showcase-4-location", label: "Showcase 4 — location tag", placeholder: "Orchard Road" },
+  { slot: "showcase-4-title", label: "Showcase 4 — caption", placeholder: "A penthouse above the city lights.", multiline: true },
 ];
 
 function AdminPage() {
