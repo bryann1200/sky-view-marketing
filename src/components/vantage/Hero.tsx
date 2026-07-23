@@ -5,11 +5,21 @@ import { fetchSiteMedia, type SiteMediaItem } from "@/lib/site-media";
 export function Hero() {
   const [t, setT] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [media, setMedia] = useState<Record<string, SiteMediaItem>>({});
 
   useEffect(() => {
     fetchSiteMedia().then(setMedia);
   }, []);
+
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    const tryPlay = () => v.play().catch(() => {});
+    tryPlay();
+    v.addEventListener("loadeddata", tryPlay);
+    return () => v.removeEventListener("loadeddata", tryPlay);
+  }, [media]);
 
   useEffect(() => {
     const onScroll = () => {
@@ -42,6 +52,7 @@ export function Hero() {
       >
         {video ? (
           <video
+            ref={videoRef}
             src={video.url}
             poster={poster}
             className="h-full w-full object-cover opacity-80"
