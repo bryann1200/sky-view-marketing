@@ -30,7 +30,7 @@ export function Nav() {
       <nav className="mx-auto flex h-14 max-w-7xl items-center justify-between px-6">
         <a href="#top" className="flex items-center gap-2">
           <img
-            src={logoAsset.url}
+            src={logoUrl}
             alt="Vantage Aerial"
             className="h-8 w-auto object-contain"
           />
