@@ -1,9 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import heroImg from "@/assets/hero-singapore.jpg";
+import { fetchSiteMedia, type SiteMediaItem } from "@/lib/site-media";
 
 export function Hero() {
   const [t, setT] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
+  const [media, setMedia] = useState<Record<string, SiteMediaItem>>({});
+
+  useEffect(() => {
+    fetchSiteMedia().then(setMedia);
+  }, []);
 
   useEffect(() => {
     const onScroll = () => {
@@ -18,6 +24,9 @@ export function Hero() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const video = media["hero-video"];
+  const poster = media["hero-poster"]?.url ?? heroImg;
+
   return (
     <section
       id="top"
@@ -31,13 +40,25 @@ export function Hero() {
           transition: "transform 0.1s linear",
         }}
       >
-        <img
-          src={heroImg}
-          alt="Aerial view of Singapore skyline"
-          className="h-full w-full object-cover opacity-80"
-          width={1920}
-          height={1080}
-        />
+        {video ? (
+          <video
+            src={video.url}
+            poster={poster}
+            className="h-full w-full object-cover opacity-80"
+            autoPlay
+            muted
+            loop
+            playsInline
+          />
+        ) : (
+          <img
+            src={poster}
+            alt="Aerial view of Singapore skyline"
+            className="h-full w-full object-cover opacity-80"
+            width={1920}
+            height={1080}
+          />
+        )}
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60" />
       </div>
 
@@ -71,5 +92,4 @@ export function Hero() {
         Scroll
       </div>
     </section>
-  );
-}
+  )
