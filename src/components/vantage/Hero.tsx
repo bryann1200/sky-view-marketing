@@ -14,14 +14,33 @@ export function Hero() {
     fetchSiteText().then(setText);
   }, []);
 
-
+  // Safari (especially iOS) sometimes doesn't honor the `muted` JSX prop
+  // early enough for its autoplay-without-gesture check to pass, so we set
+  // it explicitly on the DOM node before calling play(), and retry on a
+  // few different lifecycle events since exactly when the video becomes
+  // "ready enough" varies by browser and network speed.
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
-    const tryPlay = () => v.play().catch(() => {});
+    v.muted = true;
+    v.defaultMuted = true;
+    const tryPlay = () => {
+      v.muted = true;
+      v.play().catch(() => {
+        // Still blocked — will retry on the next lifecycle event, or the
+        // element stays paused-but-visible with its poster, which is a
+        // fine fallback.
+      });
+    };
     tryPlay();
+    v.addEventListener("loadedmetadata", tryPlay);
     v.addEventListener("loadeddata", tryPlay);
-    return () => v.removeEventListener("loadeddata", tryPlay);
+    v.addEventListener("canplay", tryPlay);
+    return () => {
+      v.removeEventListener("loadedmetadata", tryPlay);
+      v.removeEventListener("loadeddata", tryPlay);
+      v.removeEventListener("canplay", tryPlay);
+    };
   }, [media]);
 
   useEffect(() => {
@@ -61,8 +80,10 @@ export function Hero() {
             className="h-full w-full object-cover opacity-80"
             autoPlay
             muted
+            defaultMuted
             loop
             playsInline
+            preload="auto"
           />
         ) : (
           <img
