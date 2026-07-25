@@ -80,7 +80,6 @@ export function Hero() {
             className="h-full w-full object-cover opacity-80"
             autoPlay
             muted
-            defaultMuted
             loop
             playsInline
             preload="auto"
