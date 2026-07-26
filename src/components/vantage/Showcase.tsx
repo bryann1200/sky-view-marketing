@@ -18,6 +18,7 @@ const defaultItems: Item[] = [
 function ShowcaseItem({ item, i }: { item: Item; i: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const [t, setT] = useState(0);
+  const [zoomed, setZoomed] = useState(false);
 
   useEffect(() => {
     const onScroll = () => {
@@ -34,6 +35,15 @@ function ShowcaseItem({ item, i }: { item: Item; i: number }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    if (!zoomed) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [zoomed]);
+
   return (
     <section
       ref={ref}
@@ -48,24 +58,59 @@ function ShowcaseItem({ item, i }: { item: Item; i: number }) {
         </h3>
       </Reveal>
 
-      <Reveal delay={150} className="w-full max-w-6xl">
-        <div className="relative overflow-hidden rounded-2xl bg-muted shadow-[0_30px_80px_-30px_rgba(0,0,0,0.25)]">
+      <Reveal delay={150} className="mx-auto w-full max-w-6xl">
+        <div className="relative mx-auto overflow-hidden rounded-2xl bg-muted shadow-[0_30px_80px_-30px_rgba(0,0,0,0.25)]">
           <img
             src={item.img}
             alt={item.title}
             loading="lazy"
             width={1600}
             height={1000}
-            className="h-[60vh] w-full object-cover will-change-transform sm:h-[75vh]"
+            className="mx-auto h-[60vh] w-full object-cover object-center will-change-transform sm:h-[75vh]"
             style={{
               transform: `scale(${1.05 + (t - 0.5) * 0.08}) translateY(${(t - 0.5) * -30}px)`,
             }}
           />
+          {/* Tap to enlarge — phone only */}
+          <button
+            type="button"
+            onClick={() => setZoomed(true)}
+            aria-label={`Enlarge photo: ${item.title}`}
+            className="absolute inset-0 sm:hidden"
+          >
+            <span className="absolute bottom-3 right-3 rounded-full bg-black/55 px-3 py-1.5 text-[11px] font-medium text-white backdrop-blur">
+              Tap to enlarge
+            </span>
+          </button>
         </div>
       </Reveal>
+
+      {zoomed && (
+        <div
+          className="fixed inset-0 z-[60] flex items-center justify-center bg-black/95 p-3 sm:hidden"
+          onClick={() => setZoomed(false)}
+          role="dialog"
+          aria-modal="true"
+        >
+          <img
+            src={item.img}
+            alt={item.title}
+            className="max-h-full max-w-full object-contain"
+          />
+          <button
+            type="button"
+            onClick={() => setZoomed(false)}
+            aria-label="Close"
+            className="absolute right-4 top-4 rounded-full bg-white/15 px-3 py-1.5 text-xs font-medium text-white backdrop-blur"
+          >
+            Close
+          </button>
+        </div>
+      )}
     </section>
   );
 }
+
 
 export function Showcase() {
   const [overrides, setOverrides] = useState<Record<string, SiteMediaItem>>({});
