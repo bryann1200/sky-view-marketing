@@ -14,11 +14,11 @@ export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "Vantage Aerial Studio" },
+      { title: "Vantage Aerial" },
       {
         name: "description",
         content:
-          "Cinematic aerial photography and video for Singapore's most extraordinary properties. CAAS-licensed, fully insured, 48-hour turnaround.",
+          "Cinematic aerial photography and video for Singapore's most extraordinary properties. 48-hour turnaround.",
       },
       { property: "og:title", content: "Vantage Aerial Studio — See it from above." },
       {
