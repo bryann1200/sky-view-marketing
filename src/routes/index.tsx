@@ -14,7 +14,7 @@ export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "Vantage Aerial Studio — Singapore Drone Photography for Real Estate" },
+      { title: "Vantage Aerial Studio" },
       {
         name: "description",
         content:
