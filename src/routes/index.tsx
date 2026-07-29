@@ -41,6 +41,25 @@ export const Route = createFileRoute("/")({
       { name: "twitter:image", content: OG_IMAGE },
     ],
     links: [{ rel: "canonical", href: SITE_URL }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "ProfessionalService",
+          name: "Vantage Aerial Studio",
+          description:
+            "Aerial photography and drone video for real estate in Singapore.",
+          url: SITE_URL,
+          image: OG_IMAGE,
+          telephone: "+6594537393",
+          areaServed: { "@type": "Country", name: "Singapore" },
+          address: { "@type": "PostalAddress", addressCountry: "SG" },
+          serviceType: "Aerial photography",
+        }),
+      },
+    ],
+
   }),
 });
 
