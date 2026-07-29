@@ -18,8 +18,10 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Cinematic aerial photography and video for Singapore's most extraordinary properties. 48-hour turnaround.",
+          "Aerial photography Singapore (SG) — drone photos and video for property listings, from Marina Bay to Sentosa. 48-hour turnaround.",
       },
+      { name: "keywords", content: "aerial photography sg, aerial photography singapore, drone photography singapore, real estate drone video" },
+
       { property: "og:title", content: "Vantage Aerial Studio — See it from above." },
       {
         property: "og:description",
