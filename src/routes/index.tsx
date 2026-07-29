@@ -18,8 +18,10 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Cinematic aerial photography and video for Singapore's most extraordinary properties. 48-hour turnaround.",
+          "Aerial photography Singapore (SG) — drone photos and video for property listings, from Marina Bay to Sentosa. 48-hour turnaround.",
       },
+      { name: "keywords", content: "aerial photography sg, aerial photography singapore, drone photography singapore, real estate drone video" },
+
       { property: "og:title", content: "Vantage Aerial Studio — See it from above." },
       {
         property: "og:description",
@@ -39,6 +41,25 @@ export const Route = createFileRoute("/")({
       { name: "twitter:image", content: OG_IMAGE },
     ],
     links: [{ rel: "canonical", href: SITE_URL }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "ProfessionalService",
+          name: "Vantage Aerial Studio",
+          description:
+            "Aerial photography and drone video for real estate in Singapore.",
+          url: SITE_URL,
+          image: OG_IMAGE,
+          telephone: "+6594537393",
+          areaServed: { "@type": "Country", name: "Singapore" },
+          address: { "@type": "PostalAddress", addressCountry: "SG" },
+          serviceType: "Aerial photography",
+        }),
+      },
+    ],
+
   }),
 });
 
